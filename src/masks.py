@@ -1,4 +1,7 @@
-def get_mask_card_number(card_number: int) -> str:
+from typing import Union
+
+
+def get_mask_card_number(card_number: Union[str, int]) -> str:
     """Функция принимает на вход номер карты и возвращает ее маску в формате XXXX XX** **** XXXX,
     где X — это цифра номера."""
     nums_in_number_card = 16
@@ -14,11 +17,12 @@ if __name__ == "__main__":
     print(get_mask_card_number(7000792289606361))
 
 
-def get_mask_account(account_number: int) -> str:
+def get_mask_account(account_number: Union[str, int]) -> str:
     """Функция принимает на вход номер счета и возвращает его маску в формате **ХХХХ,
     где ХХХХ последние четыре цифры"""
     nums_in_account_number = 20
     str_account_number = str(account_number)
+
     if nums_in_account_number != len(str_account_number):
         return "Вы ввели неверное количество цифр счета"
     else:
