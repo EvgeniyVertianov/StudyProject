@@ -6,14 +6,16 @@ def mask_account_card(data: str) -> str:
     """Функция принимает строку, содержащую тип и номер карты или счета и возвращает
     замаскированный счет или номер карты"""
     new_data = data.split()
-
-    if len(new_data[-1]) == 16:  # проверяем является ли номер, номером карты
+    # проверяем является ли номер, номером карты
+    if len(new_data[-1]) == 16:
         new_data[-1] = get_mask_card_number(new_data[-1])
         return " ".join(new_data)
-    elif len(new_data[-1]) == 20:  # проверяем является ли номер, номером счета
+    # проверяем является ли номер, номером счета
+    elif len(new_data[-1]) == 20:
         new_data[-1] = get_mask_account(new_data[-1])
         return " ".join(new_data)
-    else:  # проверяем на корректность введенного номера карты/счета
+    # проверяем на корректность введенного номера карты/счета
+    else:
         if "Счет" in data or "счет" in data:
             return get_mask_account(new_data[-1])
         else:
@@ -29,3 +31,11 @@ if __name__ == "__main__":
     print(mask_account_card("Visa Platinum 8990922113665229"))
     print(mask_account_card("Visa Gold 5999414228426353"))
     print(mask_account_card("Счет 73654108430135874305"))
+
+
+def get_date(date: str) -> str:
+    return f"{date[8:10]}.{date[5:7]}.{date[:4]}"
+
+
+if __name__ == "__main__":
+    print(get_date("2024-03-11T02:26:18.671407"))
