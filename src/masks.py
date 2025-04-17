@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
 def get_mask_account(account_number: Union[str, int]) -> str:
     """Функция принимает на вход номер счета и возвращает его маску в формате **ХХХХ,
-    где ХХХХ последние четыре цифры"""
+    где ХХХХ последние четыре цифры."""
     nums_in_account_number = 20
     str_account_number = str(account_number)
 
