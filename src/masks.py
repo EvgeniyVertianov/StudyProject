@@ -8,7 +8,7 @@ def get_mask_card_number(card_number: Union[str, int]) -> str:
     str_card_number = str(card_number)
 
     if nums_in_number_card != len(str_card_number):
-        return "Вы ввели неверное количество цифр карты"
+        raise ValueError("Вы ввели неверное количество цифр карты")
     else:
         return f"{str_card_number[0:4]} {str_card_number[4:6]}** **** {str_card_number[12:16]}"
 
