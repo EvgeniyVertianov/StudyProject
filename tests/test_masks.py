@@ -1,75 +1,52 @@
-from typing import Union
-
 import pytest
 
-
-def get_mask_card_number(card_number: Union[str, int]) -> str:
-    """Функция принимает на вход номер карты и возвращает ее маску в формате XXXX XX** **** XXXX,
-    где X — это цифра номера."""
-    nums_in_number_card = 16
-    str_card_number = str(card_number)
-
-    if nums_in_number_card != len(str_card_number):
-        raise ValueError("Вы ввели неверное количество цифр карты")
-    else:
-        return f"{str_card_number[0:4]} {str_card_number[4:6]}** **** {str_card_number[12:16]}"
+from src.masks import get_mask_account, get_mask_card_number
 
 
-@pytest.fixture
-def value_card():
-    return "7000792289606361"
+# проверка положительного исхода
+@pytest.mark.parametrize(
+    "correct_data, expected",
+    [("1596837868705199", "1596 83** **** 5199"), ("6831982476737658", "6831 98** **** 7658")],
+)
+def test_get_mask_card_number(correct_data, expected):
+    assert get_mask_card_number(correct_data) == expected
 
 
-def test_get_mask_card_number(value_card):
-    assert get_mask_card_number(value_card) == "7000 79** **** 6361"
+# проверка ввода некорректных данных
+@pytest.mark.parametrize(
+    "incorrect_data, expected",
+    [
+        ("15968378687051990000", "Вы ввели неверное количество цифр карты"),
+        ("6831982476", "Вы ввели неверное количество цифр карты"),
+        ("", "Вы ввели неверное количество цифр карты"),
+    ],
+)
+def test_get_mask_card_number_invalid_number(incorrect_data, expected):
+    with pytest.raises(ValueError) as exc_info:
+        get_mask_card_number(incorrect_data)
+    # Проверяем, что сообщение об ошибке соответствует ожидаемому
+    assert str(exc_info.value) == expected
 
 
-def test_get_mask_card_number_invalid_number_more_numbers():
-    with pytest.raises(ValueError):
-        get_mask_card_number("7000792289606361000")
+# проверка положительного исхода
+@pytest.mark.parametrize(
+    "correct_data, expected", [("35383033474447895560", "**5560"), ("73654108430135874305", "**4305")]
+)
+def test_get_mask_account(correct_data, expected):
+    assert get_mask_account(correct_data) == expected
 
 
-def test_get_mask_card_number_invalid_number_fewer_numbers():
-    with pytest.raises(ValueError):
-        get_mask_card_number("70007922")
-
-
-def test_get_mask_card_number_invalid_number_none_number():
-    with pytest.raises(ValueError):
-        get_mask_card_number("")
-
-
-def get_mask_account(account_number: Union[str, int]) -> str:
-    """Функция принимает на вход номер счета и возвращает его маску в формате **ХХХХ,
-    где ХХХХ последние четыре цифры."""
-    nums_in_account_number = 20
-    str_account_number = str(account_number)
-
-    if nums_in_account_number != len(str_account_number):
-        raise ValueError("Вы ввели неверное количество цифр счета")
-    else:
-        return f"**{str_account_number[-4:]}"
-
-
-@pytest.fixture
-def value_account():
-    return "73654108430135874305"
-
-
-def test_get_mask_account(value_account):
-    assert get_mask_account(value_account) == "**4305"
-
-
-def test_get_mask_account_invalid_number_more_numbers():
-    with pytest.raises(ValueError):
-        get_mask_account("73654108430135874305000")
-
-
-def test_get_mask_account_invalid_number_fewer_numbers():
-    with pytest.raises(ValueError):
-        get_mask_account("73654")
-
-
-def test_get_mask_account_invalid_number_none_number():
-    with pytest.raises(ValueError):
-        get_mask_account("")
+# проверка ввода некорректных данных
+@pytest.mark.parametrize(
+    "incorrect_data, expected",
+    [
+        ("353830334744478955600000", "Вы ввели неверное количество цифр счета"),
+        ("7365410843013587", "Вы ввели неверное количество цифр счета"),
+        ("", "Вы ввели неверное количество цифр счета"),
+    ],
+)
+def test_get_mask_account_invalid_number(incorrect_data, expected):
+    with pytest.raises(ValueError) as exc_info:
+        get_mask_account(incorrect_data)
+    # Проверяем, что сообщение об ошибке соответствует ожидаемому
+    assert str(exc_info.value) == expected

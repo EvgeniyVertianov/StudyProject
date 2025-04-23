@@ -21,22 +21,37 @@ def mask_account_card(data: str) -> str:
             return get_mask_card_number(new_data[-1])
 
 
-if __name__ == "__main__":
-    print(mask_account_card("Maestro 1596837868705199"))
-    print(mask_account_card("Счет 64686473678894779589"))
-    print(mask_account_card("MasterCard 7158300734726758"))
-    print(mask_account_card("Счет 35383033474447895560"))
-    print(mask_account_card("Visa Classic 6831982476737658"))
-    print(mask_account_card("Visa Platinum 8990922113665229"))
-    print(mask_account_card("Visa Gold 5999414228426353"))
-    print(mask_account_card("Счет 73654108430135874305"))
-
-
 def get_date(date: str) -> str:
     """Функция принимает на вход строку с датой в формате "2024-03-11T02:26:18.671407" и возвращает строку
     с датой в формате "ДД.ММ.ГГГГ" ("11.03.2024")."""
-    return f"{date[8:10]}.{date[5:7]}.{date[:4]}"
+    new_date = date[:10]
+    month_with_31_days = ("01", "03", "05", "07", "08", "10", "12")
+    month_with_30_days = ("04", "06", "09", "11")
+    day = date[8:10]
+    month = date[5:7]
+    year = date[:4]
+    leap_years = []
 
+    for i in range(1764, 2133, 4):
+        leap_years.append(i)
 
-if __name__ == "__main__":
-    print(get_date("2024-03-11T02:26:18.671407"))
+    if year not in leap_years and month == "02" and int(day) > 28:
+        raise ValueError("Это не високосный год. В феврале не может быть больше 28 дней")
+    if month in month_with_30_days and int(day) > 30:
+        raise ValueError("В данном месяце не может быть больше 30 дней")
+    elif month in month_with_31_days and int(day) > 31:
+        raise ValueError("В данном месяце не может быть больше 31 дня")
+    elif len(date) == 0:
+        raise ValueError("Вы ничего не ввели")
+    elif "-" not in new_date or ":" not in date or "." not in date or "T" not in date:
+        raise ValueError("Некорректно указан формат входных данных")
+    elif day == "00":
+        raise ValueError("День указан неверно")
+    elif int(month) > 12 or month == "00":
+        raise ValueError("Месяц указан неверно")
+    elif int(year) > 9000 or year == "0000":
+        raise ValueError("Год указан неверно")
+    elif len(date) > 26 or len(date) < 26:
+        raise ValueError("Вы ввели неверное количество символов")
+    else:
+        return f"{day}.{month}.{year}"
