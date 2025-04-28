@@ -3,7 +3,6 @@ import pytest
 from src.processing import filter_by_state, sort_by_date
 
 
-# тесты модуля processing
 # тест функции filter_by_state
 def test_filter_by_state(data_processing):
     # state по умолчанию "EXECUTED"
