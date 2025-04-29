@@ -47,7 +47,7 @@ def identical_dates():
 
 
 # фикстуры к модулю generators
-# фикстуры к функции filter_by_currency
+# фикстуры к функции filter_by_currency, transaction_descriptions
 @pytest.fixture
 def transactions_for_test():
     return [
@@ -99,7 +99,32 @@ def transactions_for_test():
     ]
 
 
-# фикстуры к функции filter_by_currency на пустой лист
+# фикстуры к функции filter_by_currency, transaction_descriptions на пустой лист
 @pytest.fixture
 def transactions_empty_list():
     return []
+
+
+# фикстуры к функции transaction_descriptions на незаполненное описание операции в ключе "description"
+@pytest.fixture
+def transactions_none_description():
+    return [
+        {
+            "id": 939719570,
+            "state": "EXECUTED",
+            "date": "2018-06-30T02:08:58.425572",
+            "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
+            "description": "",
+            "from": "Счет 75106830613657916952",
+            "to": "Счет 11776614605963066702",
+        },
+        {
+            "id": 142264268,
+            "state": "EXECUTED",
+            "date": "2019-04-04T23:20:05.206878",
+            "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "code": "USD"}},
+            "description": "",
+            "from": "Счет 19708645243227258542",
+            "to": "Счет 75651667383060284188",
+        },
+    ]

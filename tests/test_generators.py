@@ -1,6 +1,6 @@
 import pytest
 
-from src.generators import filter_by_currency
+from src.generators import filter_by_currency, transaction_descriptions
 
 
 # тест функции filter_by_currency
@@ -43,5 +43,28 @@ def test_filter_by_currency_none_currency(transactions_for_test):
 # тест функции filter_by_currency на пустой список
 def test_filter_by_currency_empty_list(transactions_empty_list):
     filtered = filter_by_currency(transactions_empty_list, "RUB")
+    with pytest.raises(StopIteration):
+        next(filtered)
+
+
+# тест функции transaction_descriptions
+def test_transaction_descriptions(transactions_for_test):
+    filtered = transaction_descriptions(transactions_for_test)
+    assert next(filtered) == "Перевод организации"
+    assert next(filtered) == "Перевод со счета на счет"
+    assert next(filtered) == "Перевод со счета на счет"
+    assert next(filtered) == "Перевод с карты на карту"
+
+
+# тест функции transaction_descriptions на незаполненное описание операции в ключе "description"
+def test_transaction_descriptions_none_description(transactions_none_description):
+    filtered = transaction_descriptions(transactions_none_description)
+    assert next(filtered) == "Описание операции не заполнено"
+    assert next(filtered) == "Описание операции не заполнено"
+
+
+# тест функции transaction_descriptions на пустой список
+def test_transaction_descriptions_empty_list(transactions_empty_list):
+    filtered = transaction_descriptions(transactions_empty_list)
     with pytest.raises(StopIteration):
         next(filtered)
