@@ -1,6 +1,6 @@
 import pytest
 
-from src.generators import filter_by_currency, transaction_descriptions
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 
 # тест функции filter_by_currency
@@ -68,3 +68,19 @@ def test_transaction_descriptions_empty_list(transactions_empty_list):
     filtered = transaction_descriptions(transactions_empty_list)
     with pytest.raises(StopIteration):
         next(filtered)
+
+
+# тест функции card_number_generator
+def test_card_number_generator():
+    gen = card_number_generator(1, 3)
+    assert next(gen) == "0000 0000 0000 0001"
+    assert next(gen) == "0000 0000 0000 0002"
+    assert next(gen) == "0000 0000 0000 0003"
+
+
+# тест функции card_number_generator на неверный формат номера карты
+def test_incorrect_card_number_generator():
+    gen = card_number_generator(10000000000000000, 100000000000000001)
+    with pytest.raises(ValueError) as exc_info:
+        next(gen)  # Вызываем генератор
+    assert str(exc_info.value) == "В номере карты не может быть больше 16 цифр"

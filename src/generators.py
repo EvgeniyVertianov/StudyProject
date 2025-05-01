@@ -19,29 +19,13 @@ def transaction_descriptions(transactions: list) -> Any:
             yield item
 
 
-# if __name__ == "__main__":
-#     transactions = [
-#             {
-#                 "id": 939719570,
-#                 "state": "EXECUTED",
-#                 "date": "2018-06-30T02:08:58.425572",
-#                 "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
-#                 "description": "asd",
-#                 "from": "Счет 75106830613657916952",
-#                 "to": "Счет 11776614605963066702",
-#             },
-#             {
-#                 "id": 142264268,
-#                 "state": "EXECUTED",
-#                 "date": "2019-04-04T23:20:05.206878",
-#                 "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "code": "USD"}},
-#                 "description": "",
-#                 "from": "Счет 19708645243227258542",
-#                 "to": "Счет 75651667383060284188",
-#             },
-#         ]
-#
-#     gen = transaction_descriptions(transactions)
-#
-#     print(next(gen))
-#     print(next(gen))
+def card_number_generator(start: int, stop: int) -> Any:
+    """Функция-генератор может сгенерировать номера карт в заданном диапазоне
+    от 0000 0000 0000 0001 до 9999 9999 9999 9999"""
+    start_card_number = "0000000000000000"
+    nums = (num for num in range(start, stop + 1))
+    for num in nums:
+        card_number = start_card_number[: -len(str(num))] + str(num)
+        if start > 16 or stop > 16:
+            raise ValueError("В номере карты не может быть больше 16 цифр")
+        yield f"{card_number[:4]} {card_number[4:8]} {card_number[8:12]} {card_number[12:]}"
