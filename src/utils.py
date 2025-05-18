@@ -8,14 +8,9 @@ def get_info_about_transactions(path_to_file: str) -> Any:
         with open(path_to_file) as file:
             data = json.load(file)
             return data
-    except FileNotFoundError:
-        print("Файл не найден")
+    except FileNotFoundError as expect_info:
+        print(f"Файл не найден: {expect_info}")
         return []
-    except json.JSONDecodeError:
-        print("Ошибка декодирования файла")
+    except json.JSONDecodeError as expect_info:
+        print(f"Ошибка декодирования файла: {expect_info}")
         return []
-
-
-if __name__ == "__main__":
-    print(get_info_about_transactions("/Users/vertianovev/Учеба/Code/StudyProject/Data/operations.json"))
-    print(get_info_about_transactions("/Users/vertianovev/Учеба/Code/StudyProject/Data/utils/operations.json"))

@@ -4,7 +4,9 @@ from src.generators import card_number_generator, filter_by_currency, transactio
 
 
 # тест функции filter_by_currency
-def test_filter_by_currency(transactions_for_test, currency="RUB"):
+def test_filter_by_currency(
+    transactions_for_test: list[dict[str, int | str | dict[str, str | dict[str, str]]]],
+) -> None:
     filtered = filter_by_currency(transactions_for_test, currency="RUB")
     assert next(filtered) == {
         "id": 873106923,
@@ -27,28 +29,34 @@ def test_filter_by_currency(transactions_for_test, currency="RUB"):
 
 
 # тест функции filter_by_currency на другие валюты в ключе "code"
-def test_filter_by_currency_incorrect_currency(transactions_for_test):
+def test_filter_by_currency_incorrect_currency(
+    transactions_for_test: list[dict[str, int | str | dict[str, str | dict[str, str]]]],
+) -> None:
     filtered = filter_by_currency(transactions_for_test, "EUR")
     with pytest.raises(StopIteration):
         next(filtered)
 
 
 # тест функции filter_by_currency на незаполненную валюту в ключе "code"
-def test_filter_by_currency_none_currency(transactions_for_test):
+def test_filter_by_currency_none_currency(
+    transactions_for_test: list[dict[str, int | str | dict[str, str | dict[str, str]]]],
+) -> None:
     filtered = filter_by_currency(transactions_for_test, "")
     with pytest.raises(StopIteration):
         next(filtered)
 
 
 # тест функции filter_by_currency на пустой список
-def test_filter_by_currency_empty_list(transactions_empty_list):
+def test_filter_by_currency_empty_list(transactions_empty_list: list) -> None:
     filtered = filter_by_currency(transactions_empty_list, "RUB")
     with pytest.raises(StopIteration):
         next(filtered)
 
 
 # тест функции transaction_descriptions
-def test_transaction_descriptions(transactions_for_test):
+def test_transaction_descriptions(
+    transactions_for_test: list[dict[str, int | str | dict[str, str | dict[str, str]]]],
+) -> None:
     filtered = transaction_descriptions(transactions_for_test)
     assert next(filtered) == "Перевод организации"
     assert next(filtered) == "Перевод со счета на счет"
@@ -57,21 +65,23 @@ def test_transaction_descriptions(transactions_for_test):
 
 
 # тест функции transaction_descriptions на незаполненное описание операции в ключе "description"
-def test_transaction_descriptions_none_description(transactions_none_description):
+def test_transaction_descriptions_none_description(
+    transactions_none_description: list[dict[str, int | str | dict[str, str | dict[str, str]]]],
+) -> None:
     filtered = transaction_descriptions(transactions_none_description)
     assert next(filtered) == "Описание операции не заполнено"
     assert next(filtered) == "Описание операции не заполнено"
 
 
 # тест функции transaction_descriptions на пустой список
-def test_transaction_descriptions_empty_list(transactions_empty_list):
+def test_transaction_descriptions_empty_list(transactions_empty_list: list) -> None:
     filtered = transaction_descriptions(transactions_empty_list)
     with pytest.raises(StopIteration):
         next(filtered)
 
 
 # тест функции card_number_generator
-def test_card_number_generator():
+def test_card_number_generator() -> None:
     gen = card_number_generator(1, 3)
     assert next(gen) == "0000 0000 0000 0001"
     assert next(gen) == "0000 0000 0000 0002"
@@ -79,7 +89,7 @@ def test_card_number_generator():
 
 
 # тест функции card_number_generator на неверный формат номера карты
-def test_incorrect_card_number_generator():
+def test_incorrect_card_number_generator() -> None:
     gen = card_number_generator(10000000000000000, 100000000000000001)
     with pytest.raises(ValueError) as exc_info:
         next(gen)  # Вызываем генератор

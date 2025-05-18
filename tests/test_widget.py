@@ -15,7 +15,7 @@ from src.widget import get_date, mask_account_card
         ("Счет 73654108430135874305", "Счет **4305"),
     ],
 )
-def test_mask_account_card(correct_data, expected):
+def test_mask_account_card(correct_data: str, expected: str) -> None:
     assert mask_account_card(correct_data) == expected
 
 
@@ -31,7 +31,7 @@ def test_mask_account_card(correct_data, expected):
         ("Счет 736541084301358743", "Вы ввели неверное количество цифр счета"),
     ],
 )
-def test_mask_account_card_invalid_number(incorrect_data, expected):
+def test_mask_account_card_invalid_number(incorrect_data: str, expected: str) -> None:
     with pytest.raises(ValueError) as exc_info:
         mask_account_card(incorrect_data)
     # Проверяем, что сообщение об ошибке соответствует ожидаемому
@@ -47,7 +47,7 @@ def test_mask_account_card_invalid_number(incorrect_data, expected):
         ("2024-12-31T23:59:59.999999", "31.12.2024"),  # граничная дата года
     ],
 )
-def test_get_date(correct_date, expected):
+def test_get_date(correct_date: str, expected: str) -> None:
     assert get_date(correct_date) == expected
 
 
@@ -72,7 +72,7 @@ def test_get_date(correct_date, expected):
         ("9001-03-11T02:26:18.671407", "Год указан неверно"),
     ],
 )
-def test_get_date_invalid_date(incorrect_date, expected):
+def test_get_date_invalid_date(incorrect_date: str, expected: str) -> None:
     with pytest.raises(ValueError) as exc_info:
         get_date(incorrect_date)
     # Проверяем, что сообщение об ошибке соответствует ожидаемому

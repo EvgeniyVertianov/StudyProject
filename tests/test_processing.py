@@ -4,7 +4,7 @@ from src.processing import filter_by_state, sort_by_date
 
 
 # тест функции filter_by_state
-def test_filter_by_state(data_processing):
+def test_filter_by_state(data_processing: list[dict[str, int | str]]) -> None:
     # state по умолчанию "EXECUTED"
     assert filter_by_state(data_processing) == [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -18,7 +18,7 @@ def test_filter_by_state(data_processing):
 
 
 # тест функции filter_by_state на отсутствие ключа "state"
-def test_filter_by_state_empty_status(empty_state_filter_by_state):
+def test_filter_by_state_empty_status(empty_state_filter_by_state: list[dict[str, int | str]]) -> None:
     assert filter_by_state(empty_state_filter_by_state) == []
 
 
@@ -42,7 +42,9 @@ def test_filter_by_state_empty_status(empty_state_filter_by_state):
         ),
     ],
 )
-def test_filter_by_state_different_state(different_state_filter_by_state, state, expected):
+def test_filter_by_state_different_state(
+    different_state_filter_by_state: list[dict[str, int | str]], state: str, expected: list[dict[str, int | str]]
+) -> None:
     assert filter_by_state(different_state_filter_by_state, state) == expected
 
 
@@ -70,12 +72,14 @@ def test_filter_by_state_different_state(different_state_filter_by_state, state,
         ),
     ],
 )
-def test_sort_by_date(data_processing, reverse, expected):
+def test_sort_by_date(
+    data_processing: list[dict[str, int | str]], reverse: bool, expected: list[dict[str, int | str]]
+) -> None:
     assert sort_by_date(data_processing, reverse) == expected
 
 
 # тест функции sort_by_date на корректность сортировки при одинаковых датах
-def test_sort_by_date_identical_dates(identical_dates):
+def test_sort_by_date_identical_dates(identical_dates: list[dict[str, int | str]]) -> None:
     # reverse по умолчанию "True"
     assert sort_by_date(identical_dates) == [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -86,7 +90,7 @@ def test_sort_by_date_identical_dates(identical_dates):
 
 
 # тест функции sort_by_date на неверный формат даты
-def test_sort_by_date_incorrect_date():
+def test_sort_by_date_incorrect_date() -> None:
     with pytest.raises(ValueError) as exc_info:
         sort_by_date([{"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.51236"}])
     # Проверяем, что сообщение об ошибке соответствует ожидаемому

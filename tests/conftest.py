@@ -4,7 +4,7 @@ import pytest
 # фикстуры к модулю processing
 # общие фикстуры на функции filter_by_state, sort_by_date
 @pytest.fixture
-def data_processing():
+def data_processing() -> list:
     return [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
@@ -15,7 +15,7 @@ def data_processing():
 
 # фикстуры к функции filter_by_state без ключа "state"
 @pytest.fixture
-def empty_state_filter_by_state():
+def empty_state_filter_by_state() -> list:
     return [
         {"id": 41428829, "date": "2019-07-03T18:35:29.512364"},
         {"id": 939719570, "date": "2018-06-30T02:08:58.425572"},
@@ -26,7 +26,7 @@ def empty_state_filter_by_state():
 
 # фикстуры к функции filter_by_state с иными значениями "state"
 @pytest.fixture
-def different_state_filter_by_state():
+def different_state_filter_by_state() -> list:
     return [
         {"id": 41428829, "state": "ACTIVE", "date": "2019-07-03T18:35:29.512364"},
         {"id": 41428570, "state": "ACTIVE", "date": "2021-08-04T18:35:29.512364"},
@@ -37,7 +37,7 @@ def different_state_filter_by_state():
 
 # фикстуры к функции sort_by_date на сортировку одинаковых дат
 @pytest.fixture
-def identical_dates():
+def identical_dates() -> list:
     return [
         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
         {"id": 939719570, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
@@ -49,7 +49,7 @@ def identical_dates():
 # фикстуры к модулю generators
 # фикстуры к функции filter_by_currency, transaction_descriptions
 @pytest.fixture
-def transactions_for_test():
+def transactions_for_test() -> list:
     return [
         {
             "id": 939719570,
@@ -101,13 +101,13 @@ def transactions_for_test():
 
 # фикстуры к функции filter_by_currency, transaction_descriptions на пустой лист
 @pytest.fixture
-def transactions_empty_list():
+def transactions_empty_list() -> list:
     return []
 
 
 # фикстуры к функции transaction_descriptions на незаполненное описание операции в ключе "description"
 @pytest.fixture
-def transactions_none_description():
+def transactions_none_description() -> list:
     return [
         {
             "id": 939719570,
@@ -128,3 +128,31 @@ def transactions_none_description():
             "to": "Счет 75651667383060284188",
         },
     ]
+
+
+# фикстуры к модулю external_api
+# фикстура с долларовой транзакцией
+@pytest.fixture
+def transaction_usd() -> dict:
+    return {
+        "id": 41428829,
+        "state": "EXECUTED",
+        "date": "2019-07-03T18:35:29.512364",
+        "operationAmount": {"amount": "8221.37", "currency": {"name": "USD", "code": "USD"}},
+        "description": "Перевод организации",
+        "from": "MasterCard 7158300734726758",
+        "to": "Счет 35383033474447895560",
+    }
+
+
+# фикстуры к модулю utils
+# фикстура с верным путем
+@pytest.fixture
+def correct_path() -> str:
+    return "/Users/vertianovev/Учеба/Code/StudyProject/Data/operations.json"
+
+
+# фикстура с не верным путем
+@pytest.fixture
+def incorrect_path() -> str:
+    return "/Users/vertianovev/Учеба/Code/StudyProject/Data/utils/operations.json"
