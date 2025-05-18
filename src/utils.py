@@ -3,7 +3,7 @@ from typing import Any
 
 
 def get_info_about_transactions(path_to_file: str) -> Any:
-    """Функция принимает путь к файлу с транзакциями и возвращает их"""
+    """Функция принимает путь к файлу с транзакциями и открывает его"""
     try:
         with open(path_to_file) as file:
             data = json.load(file)
