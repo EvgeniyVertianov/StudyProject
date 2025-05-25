@@ -14,7 +14,7 @@ utils_logger = logging.getLogger("info.utils")
 
 
 def get_info_about_transactions(path_to_file: str) -> Any:
-    """Функция принимает путь к файлу с транзакциями и открывает его"""
+    """Функция принимает путь к json файлу с транзакциями и открывает его"""
     try:
         # записываем лог о запуске кода
         utils_logger.info("Запуск кода")

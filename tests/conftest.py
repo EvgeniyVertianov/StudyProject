@@ -148,11 +148,24 @@ def transaction_usd() -> dict:
 # фикстуры к модулю utils
 # фикстура с верным путем
 @pytest.fixture
-def correct_path() -> str:
+def correct_path_to_json() -> str:
     return "/Users/vertianovev/Учеба/Code/StudyProject/Data/operations.json"
 
 
 # фикстура с не верным путем
 @pytest.fixture
-def incorrect_path() -> str:
+def incorrect_path_to_json() -> str:
     return "/Users/vertianovev/Учеба/Code/StudyProject/Data/utils/operations.json"
+
+
+# фикстуры к модулю readers
+# фикстура с верным путем до csv файла
+@pytest.fixture
+def correct_path_to_csv() -> str:
+    return "/Users/vertianovev/Учеба/Code/StudyProject/data/transactions.csv"
+
+
+# фикстура с верным путем до xlsx файла
+@pytest.fixture
+def correct_path_to_xlsx() -> str:
+    return "/Users/vertianovev/Учеба/Code/StudyProject/data/transactions_excel.xlsx"
