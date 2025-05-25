@@ -6,15 +6,15 @@ from src.utils import get_info_about_transactions
 
 
 # проверяем код на положительный исход
-def test_get_info_about_transactions(correct_path: str) -> None:
-    with open(correct_path) as file:
+def test_get_info_about_transactions(correct_path_to_json: str) -> None:
+    with open(correct_path_to_json) as file:
         data = json.load(file)
-    assert get_info_about_transactions(correct_path) == data
+    assert get_info_about_transactions(correct_path_to_json) == data
 
 
 # проверяем код на отрицательный исход
-def test_get_info_about_transactions_invalid(incorrect_path: str) -> None:
-    assert get_info_about_transactions(incorrect_path) == []
+def test_get_info_about_transactions_invalid(incorrect_path_to_json: str) -> None:
+    assert get_info_about_transactions(incorrect_path_to_json) == []
 
 
 @mock.patch("builtins.open", side_effect=FileNotFoundError)
