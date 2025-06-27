@@ -1,24 +1,24 @@
 from src.masks import get_mask_account, get_mask_card_number
 
 
-def mask_account_card(data: str) -> str:
+def mask_account_card(account_card_info: str) -> str:
     """Функция принимает строку, содержащую тип и номер карты или счета и возвращает
     замаскированный счет или номер карты."""
-    new_data = data.split()
-    # проверяем является ли номер, номером карты
-    if len(new_data[-1]) == 16:
-        new_data[-1] = get_mask_card_number(new_data[-1])
-        return " ".join(new_data)
-    # проверяем является ли номер, номером счета
-    elif len(new_data[-1]) == 20:
-        new_data[-1] = get_mask_account(new_data[-1])
-        return " ".join(new_data)
-    # проверяем на корректность введенного номера карты/счета
+    if not account_card_info:
+        return "Пустой номер"
+
+    data_list = account_card_info.split()
+
+    if data_list[0].title() == "Счет":
+        if data_list[-1].isdigit():
+            data_list[-1] = get_mask_account(data_list[-1])
+        return " ".join(data_list).title()
     else:
-        if "Счет" in data or "счет" in data:
-            return get_mask_account(new_data[-1])
+        if data_list[-1].isdigit():
+            data_list[-1] = get_mask_card_number(data_list[-1])
         else:
-            return get_mask_card_number(new_data[-1])
+            raise ValueError("Номер должен состоять только из цифр")
+        return " ".join(data_list).title()
 
 
 def get_date(date: str) -> str:
