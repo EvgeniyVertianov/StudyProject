@@ -169,3 +169,14 @@ def correct_path_to_csv() -> str:
 @pytest.fixture
 def correct_path_to_xlsx() -> str:
     return "/Users/vertianovev/Учеба/Code/StudyProject/data/transactions_excel.xlsx"
+
+
+# фикстуры к модулю filters
+@pytest.fixture
+def data_filters() -> list:
+    return [
+        {"id": "650703", "state": "EXECUTED", "description": "Перевод организации"},
+        {"id": "3598919", "state": "CANCELED", "description": "Открытие вклада"},
+        {"id": "3592319", "state": "EXECUTED", "description": "Перевод с карты на счет"},
+        {"id": "3512919", "state": "PENDING", "description": "Перевод с карты на карту"},
+    ]

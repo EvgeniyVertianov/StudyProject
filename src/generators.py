@@ -1,11 +1,12 @@
 from typing import Any
 
 
-def filter_by_currency(transactions: list, currency: str) -> Any:
+def filter_by_currency(transactions: list, currency: str = "RUB") -> Any:
     """Функция возвращает итератор, который поочередно выдает транзакции, где валюта операции
     соответствует заданной (например, USD)."""
     for item in transactions:
-        if item["operationAmount"]["currency"]["code"] == currency:
+        code = item.get("operationAmount", {}).get("currency", {}).get("code")
+        if code == currency:
             yield item
 
 
